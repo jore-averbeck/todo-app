@@ -1,49 +1,29 @@
-import styled from "styled-components";
-import Card from "../components/Card.js";
+// import styled from "styled-components";
+import { uid } from "uid";
 import useSWR from "swr";
-import Link from "next/link.js";
-import { StyledLink } from "../components/StyledLink.js";
+import useLocalStorageState from "use-local-storage-state";
+import Form from "../components/Form.js";
+import List from "../components/List.js";
 
-const List = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding-left: 0;
-`;
-
-const ListItem = styled.li`
-  position: relative;
-  width: 100%;
-`;
-const FixedLink = styled(StyledLink)`
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-`;
 export default function Home() {
-  const { data } = useSWR("/api/places", { fallbackData: [] });
+  const { data, isLoading, error } = useSWR("/api/todos", { fallbackData: [] });
+
+  // const [todos, setTodos] = useLocalStorageState("todo", {
+  //   defaultValue: data,
+  // });
+
+  //neues Todo erstellen
+  function handleAddTodo(newTodo) {
+    newTodo.id = uid();
+    setTodos([newTodo, ...todos]);
+  }
+  console.log(todos);
 
   return (
     <>
-      <List role="list">
-        {data.map((place) => {
-          return (
-            <ListItem key={place.id}>
-              <Card
-                name={place.name}
-                image={place.image}
-                location={place.location}
-                id={place.id}
-              />
-            </ListItem>
-          );
-        })}
-      </List>
-      <Link href="/create" passHref legacyBehavior>
-        <FixedLink>+ place</FixedLink>
-      </Link>
+      <h1>Todo App</h1>
+      <Form onAddTodo={handleAddTodo} />
+      <List todos={todos} />
     </>
   );
 }
