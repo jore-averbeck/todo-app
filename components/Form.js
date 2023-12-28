@@ -1,17 +1,8 @@
-export default function Form({ onAddTodo }) {
-  function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    onAddTodo(data);
-    const form = event.target.elements;
-    event.target.reset();
-    form.text.focus();
-  }
+export default function Form({ onSubmit, value }) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
       <label htmlFor="text">New Todo:</label>
-      <input id="text" name="text" type="text" />
+      <input id="text" name="name" type="text" defaultValue={value} />
       <button type="submit">Add</button>
     </form>
   );

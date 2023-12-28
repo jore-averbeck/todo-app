@@ -1,29 +1,47 @@
-// import styled from "styled-components";
-import { uid } from "uid";
 import useSWR from "swr";
+import Heading from "../components/Heading.js";
+import { useRouter } from "next/router";
 import useLocalStorageState from "use-local-storage-state";
 import Form from "../components/Form.js";
 import List from "../components/List.js";
 
 export default function Home() {
-  const { data, isLoading, error } = useSWR("/api/todos", { fallbackData: [] });
+  const router = useRouter();
+  const { data, isLoading, error, mutate } = useSWR("/api/todos", {
+    fallbackData: [],
+  });
 
-  // const [todos, setTodos] = useLocalStorageState("todo", {
-  //   defaultValue: data,
-  // });
+  //Submit der Form
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-  //neues Todo erstellen
-  function handleAddTodo(newTodo) {
-    newTodo.id = uid();
-    setTodos([newTodo, ...todos]);
+    const formData = new FormData(event.target);
+    const todoData = Object.fromEntries(formData);
+
+    //das ist nun neu:
+    //Ein POST-Anfrage wird an die Server-API (/api/products) gesendet,
+    //um das neue Produkt hinzuzufügen. Die Daten werden als JSON gesendet.
+    const response = await fetch("/api/todos", {
+      method: "POST",
+      body: JSON.stringify(todoData),
+      headers: { "Content-Type": "application/json" },
+    });
+    //hier checken wir nur nochmal ob die response ok ist:
+    if (response.ok) {
+      console.log("Todo Added");
+      //Wenn die Serverantwort in Ordnung ist (response.ok), wird die Funktion mutate aufgerufen,
+      //um die Daten neu abzurufen und die Benutzeroberfläche zu aktualisieren.
+      mutate();
+    }
+
+    event.target.reset();
   }
-  console.log(todos);
 
   return (
     <>
-      <h1>Todo App</h1>
-      <Form onAddTodo={handleAddTodo} />
-      <List todos={todos} />
+      <Heading />
+      <Form onSubmit={handleSubmit} />
+      <List todos={data} />
     </>
   );
 }
