@@ -1,12 +1,28 @@
 import Link from "next/link";
+import styled from "styled-components";
+
+const StyledUl = styled.ul`
+  background-color: white;
+  border-radius: 1em;
+  padding: 0.1em;
+  list-style: none;
+`;
+
+const StyledLi = styled.li`
+  background-color: #b2f2bb;
+  padding: 1em;
+  margin: 0.5em;
+  border-radius: 1em;
+`;
+
 export default function List({ todos, onDelete }) {
   return (
-    <ul>
+    <StyledUl>
       {todos.map((todo) => (
-        <li key={todo._id}>
+        <StyledLi key={todo._id}>
           <Link href={`/${todo._id}`}>{todo.name}</Link>
-        </li>
+        </StyledLi>
       ))}
-    </ul>
+    </StyledUl>
   );
 }

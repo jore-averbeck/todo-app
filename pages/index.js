@@ -1,9 +1,9 @@
 import useSWR from "swr";
 import Heading from "../components/Heading.js";
 import { useRouter } from "next/router";
-import useLocalStorageState from "use-local-storage-state";
 import Form from "../components/Form.js";
 import List from "../components/List.js";
+import Navigation from "../components/Navigation.js";
 
 export default function Home() {
   const router = useRouter();
@@ -41,7 +41,9 @@ export default function Home() {
     <>
       <Heading />
       <Form onSubmit={handleSubmit} />
+
       <List todos={data} />
+      <Navigation />
     </>
   );
 }
