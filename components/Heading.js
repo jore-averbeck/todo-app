@@ -5,7 +5,7 @@ const StyledH1 = styled.h1`
   text-align: center;
   content-align: center;
   font-size: 30px;
-  color: white;
+  color: var(--color-headline);
 `;
 
 const StyledLi = styled.li`
@@ -17,7 +17,7 @@ const Container = styled.ul`
   display: flex;
   position: sticky;
   margin-top: -0.4px;
-  background-color: var(--color-secondary);
+  background-color: #f8f5f2;
   border-radius: 0.4em;
 `;
 
@@ -25,7 +25,7 @@ export default function Heading() {
   return (
     <Container>
       <StyledLi>
-        <Image src="/Logo_Neu.png" width={60} height={60} alt="Logo" />
+        <Image src="/check.png" width={60} height={60} alt="Logo" />
       </StyledLi>
       <StyledLi>
         <StyledH1>Todo`s</StyledH1>
@@ -33,3 +33,5 @@ export default function Heading() {
     </Container>
   );
 }
+
+// <Image src="/Logo_Neu.png" width={60} height={60} alt="Logo" />

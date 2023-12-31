@@ -8,11 +8,11 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.2em;
+  gap: 0.5em;
   margin-top: 1em;
   margin-left: 2em;
   margin-right: 2em;
-  background-color: var(--color-primary);
+  background-color: var(--color-background);
   padding-top: 0em;
   position: relative;
   width: 100%;

@@ -6,7 +6,7 @@ const StyledNav = styled.nav`
   display: flex;
   padding: 0.6em;
   justify-content: space-between;
-  background-color: var(--color-third);
+  background-color: #f8f5f2;
   border-radius: 0.5em;
 `;
 

@@ -6,16 +6,18 @@ const StyledUl = styled.ul`
   border-radius: 1em;
   padding: 0.1em;
   list-style: none;
+  background-color: #f8f5f2;
+  margin: 0.4em;
 `;
-
+// background-image: repeating-linear-gradient(
+//   90deg,
+//   var(--color-fourth),
+//   var(--color-third),
+//   var(--color-secondary)
+// );
 const StyledLi = styled.li`
-  background-image: repeating-linear-gradient(
-    90deg,
-    var(--color-fourth),
-    var(--color-third),
-    var(--color-secondary)
-  );
-  padding: 1em;
+  background-color: #5aba9c;
+  padding: 0.4em;
   margin: 0.5em;
   border-radius: 0.4em;
   display: flex;
@@ -42,10 +44,10 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledCheckButton = styled.button`
-  background-color: #ec5555;
+  border: 0.4em solid black;
   border-radius: 0.4em;
-  height: 25px;
-  width: 30px;
+  height: 20px;
+  width: 25px;
   border: none;
 `;
 

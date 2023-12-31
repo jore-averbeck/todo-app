@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Image from "next/image";
 
 const StyledForm = styled.form`
-  background-color: #ec5555;
+  background-color: #f8f5f2;
   border-radius: 2em;
   display: flex;
   padding: 0.1em;
@@ -16,7 +16,7 @@ const StyledInput = styled.input`
   border: none;
   padding: 0.5em;
   margin: 0.2em;
-  background-color: var(--color-third);
+  background-color: #f8f5f2;
 
   &::placeholder {
     color: #292910;
@@ -33,7 +33,7 @@ const StyledButton = styled.button`
   padding: 0.3em;
   margin: 0.2em;
   color: white;
-  background-color: var(--color-secondary);
+  background-color: #f45d48;
 `;
 
 export default function Form({ onSubmit, value }) {
