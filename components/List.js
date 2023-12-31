@@ -1,27 +1,72 @@
 import Link from "next/link";
+import Image from "next/image";
 import styled from "styled-components";
 
 const StyledUl = styled.ul`
-  background-color: white;
   border-radius: 1em;
   padding: 0.1em;
   list-style: none;
 `;
 
 const StyledLi = styled.li`
-  background-color: #b2f2bb;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-fourth),
+    var(--color-third),
+    var(--color-secondary)
+  );
   padding: 1em;
   margin: 0.5em;
-  border-radius: 1em;
+  border-radius: 0.4em;
+  display: flex;
+  justify-content: space-between;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateX(4px);
+  }
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 1.2em;
+  &:hover,
+  &:focus {
+    color: var(--color-secondary);
+  }
+  &:active {
+    color: var(--color-fourth);
+  }
+`;
+
+const StyledCheckButton = styled.button`
+  background-color: #ec5555;
+  border-radius: 0.4em;
+  height: 25px;
+  width: 30px;
+  border: none;
+`;
+
+const StyledHeartButton = styled.button`
+  background-color: transparent;
+  border: none;
 `;
 
 export default function List({ todos, onDelete }) {
   return (
     <StyledUl>
       {todos.map((todo) => (
-        <StyledLi key={todo._id}>
-          <Link href={`/${todo._id}`}>{todo.name}</Link>
-        </StyledLi>
+        <StyledLink href={`/${todo._id}`}>
+          <StyledLi key={todo._id}>
+            <StyledCheckButton></StyledCheckButton>
+            {todo.name}
+            <StyledHeartButton>
+              <Image src="/heart.png" width={25} height={25} />
+            </StyledHeartButton>
+          </StyledLi>
+        </StyledLink>
       ))}
     </StyledUl>
   );
