@@ -3,6 +3,11 @@ import Image from "next/image";
 import styled from "styled-components";
 
 const StyledUl = styled.ul`
+  position: absolute;
+  top: 10em;
+  left: 1em;
+  right: 1em;
+  bottom: 5em;
   border-radius: 1em;
   padding: 0.1em;
   list-style: none;
@@ -49,6 +54,7 @@ const StyledCheckButton = styled.button`
   height: 20px;
   width: 25px;
   border: none;
+  background-color: ${({ isSelected }) => (isSelected ? "white" : "black")};
 `;
 
 const StyledHeartButton = styled.button`
@@ -56,19 +62,31 @@ const StyledHeartButton = styled.button`
   border: none;
 `;
 
-export default function List({ todos, onDelete }) {
+export default function List({
+  todos,
+  onDelete,
+  onToggleSelection,
+  isSelected,
+}) {
+  console.log(todos.isSelected);
   return (
     <StyledUl>
       {todos.map((todo) => (
-        <StyledLink href={`/${todo._id}`}>
+        <>
           <StyledLi key={todo._id}>
-            <StyledCheckButton></StyledCheckButton>
-            {todo.name}
+            <StyledCheckButton
+              onClick={() => onToggleSelection(todo._id)}
+              isSelected={isSelected}
+            >
+              {isSelected ? "✔️" : ""}
+            </StyledCheckButton>
+            <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
             <StyledHeartButton>
               <Image src="/heart.png" width={25} height={25} />
-            </StyledHeartButton>
+            </StyledHeartButton>{" "}
+            <button onClick={() => onDelete(todo._id)}>✖︎</button>
           </StyledLi>
-        </StyledLink>
+        </>
       ))}
     </StyledUl>
   );

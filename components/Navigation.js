@@ -14,8 +14,11 @@ const StyledLink = styled(Link)`
   padding: 0.2em;
   border-radius: 1em;
 `;
-
-export default function Navigation() {
+const StyledButton = styled.button`
+  padding: 0.2em;
+  border-radius: 1em;
+`;
+export default function Navigation({ onDeleteAll }) {
   return (
     <StyledNav>
       <StyledLink href="/">
@@ -29,9 +32,9 @@ export default function Navigation() {
       <StyledLink href="/">
         <Image src="/check.png" width={30} height={30} />
       </StyledLink>
-      <StyledLink href="/">
+      <StyledButton onClick={() => onDeleteAll()}>
         <Image src="/trash.png" width={30} height={30} />
-      </StyledLink>
+      </StyledButton>
     </StyledNav>
   );
 }

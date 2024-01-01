@@ -23,12 +23,36 @@ export default async function handler(request, response) {
     return response.status(201).json({ status: "created" });
   }
 
-  //DELETE METHOD
+  // //DELETE METHOD
+  // if (request.method === "DELETE") {
+  //   if (!isSelected) {
+  //     const { id } = request.query;
+  //     await Todo.findByIdAndDelete(id);
+  //     // Declare jokeToDelete to be the joke identified by its id and delete it.
+  //     // This line handles the entire deletion process.
+  //     response.status(200).json({ status: `Todo ${id} successfully deleted.` });
+  //   }
+  //   if (isSelcted) {
+  //     await Todo.deleteMany({});
+  //   }
+  // }
+
+  // if (request.method === "DELETE") {
+  //   await Todo.deleteMany({});
+  //   response.status(200).json({ status: "deleted all" });
+  // }
+
+  // DELETE METHOD
   if (request.method === "DELETE") {
-    const { id } = request.query;
-    await Todo.findByIdAndDelete(id);
-    // Declare jokeToDelete to be the joke identified by its id and delete it.
-    // This line handles the entire deletion process.
-    response.status(200).json({ status: `Todo ${id} successfully deleted.` });
+    if (!isSelected) {
+      const { id } = request.query;
+      await Todo.findByIdAndDelete(id);
+      response.status(200).json({ status: `Todo ${id} successfully deleted.` });
+    } else {
+      const result = await Todo.deleteMany({});
+      response
+        .status(200)
+        .json({ status: `Deleted ${result.deletedCount} todos.` });
+    }
   }
 }

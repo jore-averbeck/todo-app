@@ -3,7 +3,10 @@ const StyledBody = styled.body`
   background-color: black;
 `;
 const Main = styled.main`
+  position: relativ;
+  min-width: 320px;
   max-width: 320px;
+  min-height: 568px;
   max-height: 568px;
   display: flex;
   flex-direction: column;

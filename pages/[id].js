@@ -52,12 +52,15 @@ export default function Details({ todo }) {
     <div>
       {isLoading ? (
         <p>Loading...</p>
-      ) : (
+      ) : data ? (
         <>
           <p>{data.name}</p>
           <button onClick={handleDeleteTodos}>Delete</button>
         </>
+      ) : (
+        <p>Data not available</p>
       )}
+
       <button
         type="button"
         onClick={() => {

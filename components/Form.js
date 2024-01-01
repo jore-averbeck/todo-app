@@ -9,6 +9,9 @@ const StyledForm = styled.form`
   padding-top: 0.2em;
   align-items: flex-start;
   margin: auto;
+  position: absolute;
+  top: 6em;
+  left: 2.1em;
 `;
 
 const StyledInput = styled.input`

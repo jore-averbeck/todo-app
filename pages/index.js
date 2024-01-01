@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { useState } from "react";
 import Heading from "../components/Heading.js";
 import { useRouter } from "next/router";
 import Form from "../components/Form.js";
@@ -10,6 +11,7 @@ export default function Home() {
   const { data, isLoading, error, mutate } = useSWR("/api/todos", {
     fallbackData: [],
   });
+  const [isSelected, setIsSelected] = useState(false); // Initialize isSelected state
 
   //Submit der Form
   async function handleSubmit(event) {
@@ -37,13 +39,66 @@ export default function Home() {
     event.target.reset();
   }
 
+  // DELETE Todo on the main page
+  // DELETE Todo on the main page
+  async function handleDeleteTodo(id) {
+    const response = await fetch(`/api/todos/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      await response.json();
+      mutate(); // Refresh data after deletion
+    } else {
+      console.error(
+        "Error deleting todo:",
+        response.status,
+        response.statusText
+      );
+    }
+  }
+
+  // Delete All
+  async function handleDeleteAll() {
+    const response = await fetch("/api/todos/delete-all", {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      await response.json();
+      mutate([], false); // Update the data without re-fetching
+    } else {
+      console.error(
+        "Error deleting all todos:",
+        response.status,
+        response.statusText
+      );
+    }
+  }
+
+  // Toggle isSelected state
+  // Toggle isSelected state
+  function handleToggleSelection(id) {
+    setIsSelected((prevSelected) =>
+      prevSelected.map((selected) =>
+        selected._id === id
+          ? { ...selected, isSelected: !selected.isSelected }
+          : selected
+      )
+    );
+  }
   return (
     <>
       <Heading />
       <Form onSubmit={handleSubmit} />
 
-      <List todos={data} />
-      <Navigation />
+      <List
+        todos={data}
+        onDelete={handleDeleteTodo}
+        onToggleSelection={handleToggleSelection}
+        isSelected={isSelected}
+      />
+      <Navigation onDeleteAll={handleDeleteAll} />
     </>
   );
 }
