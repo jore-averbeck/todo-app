@@ -32,7 +32,7 @@ export default function Navigation({ onDeleteAll }) {
       <StyledLink href="/">
         <Image src="/check.png" width={30} height={30} />
       </StyledLink>
-      <StyledButton onClick={() => onDeleteAll()}>
+      <StyledButton onClick={onDeleteAll}>
         <Image src="/trash.png" width={30} height={30} />
       </StyledButton>
     </StyledNav>

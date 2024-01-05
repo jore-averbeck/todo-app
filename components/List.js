@@ -68,26 +68,46 @@ export default function List({
   onToggleSelection,
   isSelected,
 }) {
-  console.log(todos.isSelected);
   return (
     <StyledUl>
       {todos.map((todo) => (
-        <>
-          <StyledLi key={todo._id}>
-            <StyledCheckButton
-              onClick={() => onToggleSelection(todo._id)}
-              isSelected={isSelected}
-            >
-              {isSelected ? "✔️" : ""}
-            </StyledCheckButton>
-            <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
-            <StyledHeartButton>
-              <Image src="/heart.png" width={25} height={25} />
-            </StyledHeartButton>{" "}
-            <button onClick={() => onDelete(todo._id)}>✖︎</button>
-          </StyledLi>
-        </>
+        <StyledLi key={todo._id}>
+          <StyledCheckButton onClick={() => onToggleSelection(todo._id)}>
+            {isSelected.find((selected) => selected._id === todo._id)
+              ?.isSelected
+              ? "✔️"
+              : ""}
+          </StyledCheckButton>
+          <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
+          <StyledHeartButton>
+            <Image src="/heart.png" width={25} height={25} />
+          </StyledHeartButton>{" "}
+          <button onClick={() => onDelete(todo._id)}>✖︎</button>
+        </StyledLi>
       ))}
     </StyledUl>
   );
 }
+
+//   return (
+//     <StyledUl>
+//       {todos.map((todo) => (
+//         <>
+//           <StyledLi key={todo._id}>
+//             <StyledCheckButton
+//               onClick={() => onToggleSelection(todo._id)}
+//               isSelected={isSelected}
+//             >
+//               {isSelected ? "✔️" : ""}
+//             </StyledCheckButton>
+//             <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
+//             <StyledHeartButton>
+//               <Image src="/heart.png" width={25} height={25} />
+//             </StyledHeartButton>{" "}
+//             <button onClick={() => onDelete(todo._id)}>✖︎</button>
+//           </StyledLi>
+//         </>
+//       ))}
+//     </StyledUl>
+//   );
+// }

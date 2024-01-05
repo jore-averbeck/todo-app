@@ -11,7 +11,8 @@ export default function Home() {
   const { data, isLoading, error, mutate } = useSWR("/api/todos", {
     fallbackData: [],
   });
-  const [isSelected, setIsSelected] = useState(false); // Initialize isSelected state
+  const [todos, setTodos] = useState([]);
+  const [isSelected, setIsSelected] = useState([]); // Initialize isSelected state
 
   //Submit der Form
   async function handleSubmit(event) {
@@ -30,7 +31,6 @@ export default function Home() {
     });
     //hier checken wir nur nochmal ob die response ok ist:
     if (response.ok) {
-      console.log("Todo Added");
       //Wenn die Serverantwort in Ordnung ist (response.ok), wird die Funktion mutate aufgerufen,
       //um die Daten neu abzurufen und die Benutzeroberfläche zu aktualisieren.
       mutate();
@@ -58,35 +58,45 @@ export default function Home() {
     }
   }
 
-  // Delete All
-  async function handleDeleteAll() {
-    const response = await fetch("/api/todos/delete-all", {
+  // Toggle isSelected state
+  function handleToggleSelection(id) {
+    setIsSelected((prevSelected) => {
+      const updatedSelection = prevSelected.map((selected) =>
+        selected._id === id
+          ? { ...selected, isSelected: !selected.isSelected }
+          : selected
+      );
+
+      if (!updatedSelection.find((selected) => selected._id === id)) {
+        updatedSelection.push({ _id: id, isSelected: true });
+      }
+
+      return updatedSelection;
+    });
+  }
+
+  async function handleDeleteManyTodos(id) {
+    const selectedIds = isSelected.filter((selected) => selected.isSelected);
+
+    const response = await fetch(`/api/todos`, {
       method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids: selectedIds }),
     });
 
     if (response.ok) {
       await response.json();
-      mutate([], false); // Update the data without re-fetching
+      mutate(); // Refresh data after deletion
+      setIsSelected([]); // Clear the selection
     } else {
       console.error(
-        "Error deleting all todos:",
+        "Error deleting todos:",
         response.status,
         response.statusText
       );
     }
   }
 
-  // Toggle isSelected state
-  // Toggle isSelected state
-  function handleToggleSelection(id) {
-    setIsSelected((prevSelected) =>
-      prevSelected.map((selected) =>
-        selected._id === id
-          ? { ...selected, isSelected: !selected.isSelected }
-          : selected
-      )
-    );
-  }
   return (
     <>
       <Heading />
@@ -98,7 +108,7 @@ export default function Home() {
         onToggleSelection={handleToggleSelection}
         isSelected={isSelected}
       />
-      <Navigation onDeleteAll={handleDeleteAll} />
+      <Navigation onDeleteAll={handleDeleteManyTodos} />
     </>
   );
 }
