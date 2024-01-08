@@ -76,12 +76,13 @@ export default function Home() {
   }
 
   async function handleDeleteManyTodos(id) {
-    const selectedIds = isSelected.filter((selected) => selected.isSelected);
+    const selectedIds = isSelected
+      .filter((selected) => selected.isSelected)
+      .map((x) => x._id);
 
     const response = await fetch(`/api/todos`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ids: selectedIds }),
     });
 
     if (response.ok) {

@@ -5,7 +5,7 @@ import Todo from "@/db/models/Todo";
 
 export default async function handler(request, response) {
   await dbConnect();
-
+  console.log(request.method);
   if (request.method === "GET") {
     const todos = await Todo.find();
     return response.status(200).json(todos);
@@ -23,10 +23,13 @@ export default async function handler(request, response) {
     return response.status(201).json({ status: "created" });
   }
 
+  //DELETE ALL
   if (request.method === "DELETE") {
-    const selectedIds = isSelected.filter((selected) => selected.isSelected);
+    console.log(request.body);
+    // const selectedIds = isSelected.filter((selected) => selected.isSelected);
 
-    await Todo.deleteMany(selectedIds);
+    // await Todo.deleteMany(selectedIds);
+    await Todo.deleteMany();
     response
       .status(200)
       .json({ status: `Deleted ${result.deletedCount} todos.` });

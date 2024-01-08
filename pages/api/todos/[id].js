@@ -32,7 +32,6 @@ export default async function handler(request, response) {
   // }
 
   // DELETE Method
-  // DELETE Method
   if (request.method === "DELETE") {
     if (id) {
       // Einzelnes Todo löschen
