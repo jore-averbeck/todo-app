@@ -39,6 +39,7 @@ const StyledLink = styled(Link)`
   color: black;
   font-weight: bold;
   font-size: 1.2em;
+  flex: 2;
   &:hover,
   &:focus {
     color: var(--color-secondary);
@@ -46,15 +47,6 @@ const StyledLink = styled(Link)`
   &:active {
     color: var(--color-fourth);
   }
-`;
-
-const StyledCheckButton = styled.button`
-  border: 0.4em solid black;
-  border-radius: 0.4em;
-  height: 20px;
-  width: 25px;
-  border: none;
-  background-color: ${({ isSelected }) => (isSelected ? "white" : "black")};
 `;
 
 const StyledHeartButton = styled.button`
@@ -72,12 +64,6 @@ export default function List({
     <StyledUl>
       {todos.map((todo) => (
         <StyledLi key={todo._id}>
-          <StyledCheckButton onClick={() => onToggleSelection(todo._id)}>
-            {isSelected.find((selected) => selected._id === todo._id)
-              ?.isSelected
-              ? "✔️"
-              : ""}
-          </StyledCheckButton>
           <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
           <StyledHeartButton>
             <Image src="/heart.png" width={25} height={25} />
@@ -88,26 +74,3 @@ export default function List({
     </StyledUl>
   );
 }
-
-//   return (
-//     <StyledUl>
-//       {todos.map((todo) => (
-//         <>
-//           <StyledLi key={todo._id}>
-//             <StyledCheckButton
-//               onClick={() => onToggleSelection(todo._id)}
-//               isSelected={isSelected}
-//             >
-//               {isSelected ? "✔️" : ""}
-//             </StyledCheckButton>
-//             <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
-//             <StyledHeartButton>
-//               <Image src="/heart.png" width={25} height={25} />
-//             </StyledHeartButton>{" "}
-//             <button onClick={() => onDelete(todo._id)}>✖︎</button>
-//           </StyledLi>
-//         </>
-//       ))}
-//     </StyledUl>
-//   );
-// }

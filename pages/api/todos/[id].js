@@ -16,38 +16,21 @@ export default async function handler(request, response) {
     response.status(200).json(todo);
   }
 
-  // //DELETE Method
-  // if (request.method === "DELETE") {
-  //   await Todo.findByIdAndDelete(id);
-  //   response.status(200).json({ status: "todo deleted" });
-  // }
-
-  // if (request.method === "DELETE") {
-  //   const selectedIds = isSelected.filter((selected) => selected.isSelected);
-
-  //   await Todo.deleteMany(selectedIds);
-  //   response
-  //     .status(200)
-  //     .json({ status: `Deleted ${result.deletedCount} todos.` });
-  // }
-
-  // DELETE Method
+  //DELETE Method
   if (request.method === "DELETE") {
-    if (id) {
-      // Einzelnes Todo löschen
-      await Todo.findByIdAndDelete(id);
-      response.status(200).json({ status: `Todo ${id} deleted.` });
-    } else {
-      // Mehrere Todos löschen
-      const selectedIds = isSelected
-        .filter((selected) => selected.isSelected)
-        .map((selected) => selected._id);
+    await Todo.findByIdAndDelete(id);
+    response.status(200).json({ status: "todo deleted" });
+  }
 
-      const result = await Todo.deleteMany(selectedIds);
-      response
-        .status(200)
-        .json({ status: `Deleted ${result.deletedCount} todos.` });
+  //DELETE ALL
+  if (request.method === "DELETE") {
+    if (!request.query.ids) {
+      return response.status(400).json({ message: "ids parameter missing" });
     }
+    await Todo.deleteMany({ _id: { $in: request.query.ids } });
+    response
+      .status(200)
+      .json({ status: `Deleted ${request.query.ids.length} todos.` });
   }
 
   //PUT Method

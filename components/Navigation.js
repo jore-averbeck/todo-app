@@ -4,8 +4,10 @@ import Image from "next/image";
 
 const StyledNav = styled.nav`
   display: flex;
-  padding: 0.6em;
-  justify-content: space-between;
+  padding: 0.7em;
+  padding-left: 2em;
+  padding-right: 2em;
+  justify-content: space-evenly;
   background-color: #f8f5f2;
   border-radius: 0.5em;
 `;
@@ -13,6 +15,7 @@ const StyledNav = styled.nav`
 const StyledLink = styled(Link)`
   padding: 0.2em;
   border-radius: 1em;
+  flex: 1;
 `;
 const StyledButton = styled.button`
   padding: 0.2em;
@@ -29,10 +32,10 @@ export default function Navigation({ onDeleteAll }) {
         {" "}
         <Image src="/heart.png" width={30} height={30} />
       </StyledLink>
-      <StyledLink href="/">
+      {/* <StyledLink href="/">
         <Image src="/check.png" width={30} height={30} />
-      </StyledLink>
-      <StyledButton onClick={onDeleteAll}>
+      </StyledLink> */}
+      <StyledButton onClick={() => onDeleteAll()}>
         <Image src="/trash.png" width={30} height={30} />
       </StyledButton>
     </StyledNav>

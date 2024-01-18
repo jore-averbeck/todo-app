@@ -58,44 +58,24 @@ export default function Home() {
     }
   }
 
-  // Toggle isSelected state
-  function handleToggleSelection(id) {
-    setIsSelected((prevSelected) => {
-      const updatedSelection = prevSelected.map((selected) =>
-        selected._id === id
-          ? { ...selected, isSelected: !selected.isSelected }
-          : selected
-      );
+  async function handleDeleteManyTodos() {
+    const confirmDelete = window.confirm(
+      "Are you sure that you want to delete all your Todos?"
+    );
 
-      if (!updatedSelection.find((selected) => selected._id === id)) {
-        updatedSelection.push({ _id: id, isSelected: true });
-      }
-
-      return updatedSelection;
-    });
-  }
-
-  async function handleDeleteManyTodos(id) {
-    const selectedIds = isSelected
-      .filter((selected) => selected.isSelected)
-      .map((x) => x._id);
-
-    const response = await fetch(`/api/todos`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (response.ok) {
-      await response.json();
-      mutate(); // Refresh data after deletion
-      setIsSelected([]); // Clear the selection
-    } else {
-      console.error(
-        "Error deleting todos:",
-        response.status,
-        response.statusText
-      );
+    if (!confirmDelete) {
+      return;
     }
+
+    const params = new URLSearchParams();
+    isSelected
+      .filter((selected) => selected.isSelected)
+      .forEach((entry) => params.append("ids", entry._id));
+
+    await fetch(`/api/todos?${params}`, { method: "DELETE" });
+
+    mutate();
+    setIsSelected([]);
   }
 
   return (
@@ -103,12 +83,7 @@ export default function Home() {
       <Heading />
       <Form onSubmit={handleSubmit} />
 
-      <List
-        todos={data}
-        onDelete={handleDeleteTodo}
-        onToggleSelection={handleToggleSelection}
-        isSelected={isSelected}
-      />
+      <List todos={data} onDelete={handleDeleteTodo} />
       <Navigation onDeleteAll={handleDeleteManyTodos} />
     </>
   );
