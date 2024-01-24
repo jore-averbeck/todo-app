@@ -6,13 +6,11 @@ import Form from "../components/Form.js";
 import List from "../components/List.js";
 import Navigation from "../components/Navigation.js";
 
-export default function Home() {
+export default function Home({ todos, onToggleFavourites, favourites }) {
   const router = useRouter();
   const { data, isLoading, error, mutate } = useSWR("/api/todos", {
     fallbackData: [],
   });
-  const [todos, setTodos] = useState([]);
-  const [isSelected, setIsSelected] = useState([]); // Initialize isSelected state
 
   //Submit der Form
   async function handleSubmit(event) {
@@ -41,7 +39,7 @@ export default function Home() {
 
     if (response.ok) {
       await response.json();
-      mutate(); // Refresh data after deletion
+      mutate();
     } else {
       console.error(
         "Error deleting todo:",
@@ -51,7 +49,7 @@ export default function Home() {
     }
   }
 
-  async function handleDeleteManyTodos() {
+  async function handleDeleteAllTodos() {
     const confirmDelete = window.confirm(
       "Are you sure that you want to delete all your Todos?"
     );
@@ -60,15 +58,9 @@ export default function Home() {
       return;
     }
 
-    const params = new URLSearchParams();
-    isSelected
-      .filter((selected) => selected.isSelected)
-      .forEach((entry) => params.append("ids", entry._id));
-
-    await fetch(`/api/todos?${params}`, { method: "DELETE" });
+    await fetch(`/api/todos`, { method: "DELETE" });
 
     mutate();
-    setIsSelected([]);
   }
 
   return (
@@ -76,8 +68,13 @@ export default function Home() {
       <Heading />
       <Form onSubmit={handleSubmit} />
 
-      <List todos={data} onDelete={handleDeleteTodo} />
-      <Navigation onDeleteAll={handleDeleteManyTodos} />
+      <List
+        todos={data}
+        onDelete={handleDeleteTodo}
+        onToggleFavourites={onToggleFavourites}
+        favourites={favourites}
+      />
+      <Navigation onDeleteAll={handleDeleteAllTodos} />
     </>
   );
 }

@@ -26,9 +26,6 @@ export default async function handler(request, response) {
   //DELETE ALL
   if (request.method === "DELETE") {
     console.log(request.body);
-    // const selectedIds = isSelected.filter((selected) => selected.isSelected);
-
-    // await Todo.deleteMany(selectedIds);
     await Todo.deleteMany();
     response
       .status(200)

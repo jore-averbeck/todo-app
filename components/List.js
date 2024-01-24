@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { useState } from "react";
 import styled from "styled-components";
 
 const StyledUl = styled.ul`
@@ -14,12 +14,7 @@ const StyledUl = styled.ul`
   background-color: #f8f5f2;
   margin: 0.4em;
 `;
-// background-image: repeating-linear-gradient(
-//   90deg,
-//   var(--color-fourth),
-//   var(--color-third),
-//   var(--color-secondary)
-// );
+
 const StyledLi = styled.li`
   background-color: #5aba9c;
   padding: 0.4em;
@@ -54,23 +49,59 @@ const StyledHeartButton = styled.button`
   border: none;
 `;
 
+const StyledPaginationContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1em;
+`;
+
 export default function List({
   todos,
   onDelete,
-  onToggleSelection,
-  isSelected,
+  onToggleFavourites,
+  favourites,
 }) {
+  const todosPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+
+  const totalPages = Math.ceil(todos.length / todosPerPage);
+  const paginatedTodos = todos.slice(
+    (currentPage - 1) * todosPerPage,
+    currentPage * todosPerPage
+  );
   return (
-    <StyledUl>
-      {todos.map((todo) => (
-        <StyledLi key={todo._id}>
-          <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
-          <StyledHeartButton>
-            <Image src="/heart.png" width={25} height={25} />
-          </StyledHeartButton>{" "}
-          <button onClick={() => onDelete(todo._id)}>✖︎</button>
-        </StyledLi>
-      ))}
-    </StyledUl>
+    <>
+      <StyledUl>
+        {paginatedTodos.map((todo) => (
+          <StyledLi key={todo._id}>
+            <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
+            <StyledHeartButton
+              onClick={(event) => event && onToggleFavourites(todo._id, event)}
+            >
+              <span>{favourites.includes(todo._id) ? "❤️" : "🤍"}</span>
+            </StyledHeartButton>
+            <button onClick={() => onDelete(todo._id)}>✖︎</button>
+          </StyledLi>
+        ))}
+        <StyledPaginationContainer>
+          {currentPage > 1 ? (
+            <button onClick={() => setCurrentPage(currentPage - 1)}>
+              Previous
+            </button>
+          ) : null}
+          {currentPage < totalPages ? (
+            <button onClick={() => setCurrentPage(currentPage + 1)}>
+              Next
+            </button>
+          ) : null}
+        </StyledPaginationContainer>
+      </StyledUl>
+    </>
   );
 }
