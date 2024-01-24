@@ -58,6 +58,15 @@ const StyledPaginationContainer = styled.div`
   gap: 1em;
 `;
 
+const StyledPaginationButton = styled.button`
+  padding: 0.5;
+  border-radius: 0.5em;
+  background-color: white;
+  font-size: 1em;
+  border: 1 solid lightgray;
+  margin-bottom: 0.5em;
+`;
+
 export default function List({
   todos,
   onDelete,
@@ -84,21 +93,25 @@ export default function List({
             <StyledHeartButton
               onClick={(event) => event && onToggleFavourites(todo._id, event)}
             >
-              <span>{favourites.includes(todo._id) ? "❤️" : "🤍"}</span>
+              <span>{favourites.includes(todo._id) ? "✅" : "📋"}</span>
             </StyledHeartButton>
             <button onClick={() => onDelete(todo._id)}>✖︎</button>
           </StyledLi>
         ))}
         <StyledPaginationContainer>
           {currentPage > 1 ? (
-            <button onClick={() => setCurrentPage(currentPage - 1)}>
+            <StyledPaginationButton
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
               Previous
-            </button>
+            </StyledPaginationButton>
           ) : null}
           {currentPage < totalPages ? (
-            <button onClick={() => setCurrentPage(currentPage + 1)}>
+            <StyledPaginationButton
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
               Next
-            </button>
+            </StyledPaginationButton>
           ) : null}
         </StyledPaginationContainer>
       </StyledUl>
