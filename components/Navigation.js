@@ -28,13 +28,10 @@ export default function Navigation({ onDeleteAll }) {
         <Image src="/home-icon-silhouette.png" width={30} height={30} />
       </StyledLink>
 
-      <StyledLink href="/favourites">
+      <StyledLink href="/done">
         {" "}
-        <Image src="/heart.png" width={30} height={30} />
-      </StyledLink>
-      {/* <StyledLink href="/">
         <Image src="/check.png" width={30} height={30} />
-      </StyledLink> */}
+      </StyledLink>
       <StyledButton onClick={() => onDeleteAll()}>
         <Image src="/trash.png" width={30} height={30} />
       </StyledButton>

@@ -67,12 +67,7 @@ const StyledPaginationButton = styled.button`
   margin-bottom: 0.5em;
 `;
 
-export default function List({
-  todos,
-  onDelete,
-  onToggleFavourites,
-  favourites,
-}) {
+export default function List({ todos, onDelete, onToggleDone, done }) {
   const todosPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -91,9 +86,9 @@ export default function List({
           <StyledLi key={todo._id}>
             <StyledLink href={`/${todo._id}`}>{todo.name}</StyledLink>
             <StyledHeartButton
-              onClick={(event) => event && onToggleFavourites(todo._id, event)}
+              onClick={(event) => event && onToggleDone(todo._id, event)}
             >
-              <span>{favourites.includes(todo._id) ? "✅" : "📋"}</span>
+              <span>{done.includes(todo._id) ? "✅" : "📋"}</span>
             </StyledHeartButton>
             <button onClick={() => onDelete(todo._id)}>✖︎</button>
           </StyledLi>

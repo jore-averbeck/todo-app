@@ -8,7 +8,7 @@ import useLocalStorageState from "use-local-storage-state";
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const [favourites, setFavourites] = useLocalStorageState("favourites", {
+  const [done, setDone] = useLocalStorageState("favourites", {
     defaultValue: [],
   });
   const {
@@ -19,12 +19,12 @@ export default function App({ Component, pageProps }) {
     fallbackData: [],
   });
 
-  function handleToggleFavourites(id, event) {
+  function handleToggleDone(id, event) {
     event.preventDefault();
-    if (favourites.includes(id)) {
-      setFavourites(favourites?.filter((favourite) => favourite !== id));
+    if (done.includes(id)) {
+      setDone(done?.filter((favourite) => favourite !== id));
     } else {
-      setFavourites([...favourites, id]);
+      setDone([...done, id]);
     }
   }
 
@@ -44,9 +44,9 @@ export default function App({ Component, pageProps }) {
         <GlobalStyle />
         <Component
           {...pageProps}
-          favourites={favourites}
+          done={done}
           todos={todos}
-          onToggleFavourites={handleToggleFavourites}
+          onToggleDone={handleToggleDone}
         />
       </Layout>
     </SWRConfig>

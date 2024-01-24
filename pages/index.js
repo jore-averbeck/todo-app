@@ -6,7 +6,7 @@ import Form from "../components/Form.js";
 import List from "../components/List.js";
 import Navigation from "../components/Navigation.js";
 
-export default function Home({ todos, onToggleFavourites, favourites }) {
+export default function Home({ todos, onToggleDone, done }) {
   const router = useRouter();
   const { data, isLoading, error, mutate } = useSWR("/api/todos", {
     fallbackData: [],
@@ -71,8 +71,8 @@ export default function Home({ todos, onToggleFavourites, favourites }) {
       <List
         todos={data}
         onDelete={handleDeleteTodo}
-        onToggleFavourites={onToggleFavourites}
-        favourites={favourites}
+        onToggleDone={onToggleDone}
+        done={done}
       />
       <Navigation onDeleteAll={handleDeleteAllTodos} />
     </>
