@@ -3,6 +3,14 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Form from "../components/Form.js";
 import { useState } from "react";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  gap: 1rem;
+`;
 
 export default function Details({ todo }) {
   const router = useRouter();
@@ -49,30 +57,33 @@ export default function Details({ todo }) {
   }
 
   return (
-    <div>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : data ? (
-        <>
-          <p>{data.name}</p>
-          <button onClick={handleDeleteTodos}>Delete</button>
-        </>
-      ) : (
-        <p>Data not available</p>
-      )}
+    <Container>
+      <h2>Edit your Todo</h2>
+      <div>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : data ? (
+          <>
+            <p>{data.name}</p>
+            <button onClick={handleDeleteTodos}>Delete</button>
+          </>
+        ) : (
+          <p>Data not available</p>
+        )}
 
-      <button
-        type="button"
-        onClick={() => {
-          setIsEditMode(!isEditMode);
-        }}
-      >
-        Edit
-      </button>
-      {isEditMode && (
-        <Form onSubmit={handleEditTodo} value={data.name} isEditMode={true} />
-      )}
-      <Link href="/">Back</Link>
-    </div>
+        <button
+          type="button"
+          onClick={() => {
+            setIsEditMode(!isEditMode);
+          }}
+        >
+          Edit
+        </button>
+        {isEditMode && (
+          <Form onSubmit={handleEditTodo} value={data.name} isEditMode={true} />
+        )}
+        <Link href="/">Back</Link>
+      </div>
+    </Container>
   );
 }
