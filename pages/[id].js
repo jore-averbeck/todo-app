@@ -38,24 +38,6 @@ export default function Details({ todo }) {
     }
   }
 
-  //EDIT Todo
-  async function handleEditTodo(event) {
-    const formData = new FormData(event.target);
-    const todoData = Object.fromEntries(formData);
-    const { id } = router.query;
-
-    const response = await fetch(`/api/todos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(todoData),
-    });
-    if (response.ok) {
-      mutate();
-    }
-  }
-
   return (
     <Container>
       <h2>Edit your Todo</h2>
@@ -70,19 +52,6 @@ export default function Details({ todo }) {
         ) : (
           <p>Data not available</p>
         )}
-
-        <button
-          type="button"
-          onClick={() => {
-            setIsEditMode(!isEditMode);
-          }}
-        >
-          Edit
-        </button>
-        {isEditMode && (
-          <Form onSubmit={handleEditTodo} value={data.name} isEditMode={true} />
-        )}
-        <Link href="/">Back</Link>
       </div>
     </Container>
   );
